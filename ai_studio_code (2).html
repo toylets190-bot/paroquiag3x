@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <title>Paróquia São Geraldo - Japonvar</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Azul extraído das fotos da Igreja */
+            --church-blue: #2E86C1; 
+            --church-dark: #1B4F72;
+            --accent: #F1C40F; /* Amarelo Dourado */
+            --bg-app: #F8F9FA;
+            --text-main: #34495E;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            padding-bottom: 80px; /* Espaço menu inferior */
+            overflow-x: hidden;
+        }
+
+        /* --- 1. CABEÇALHO (Branco para integrar o logo) --- */
+        .app-header {
+            background: white;
+            padding: 10px 20px;
+            position: sticky; top: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-img { 
+            height: 50px; width: auto; 
+            /* Truque para deixar o fundo branco do logo "transparente" */
+            mix-blend-mode: multiply; 
+        }
+        .header-title h1 { font-size: 0.95rem; margin: 0; color: var(--church-dark); font-weight: 800; line-height: 1.1; }
+        .header-title small { font-size: 0.7rem; color: #7f8c8d; font-weight: 600; text-transform: uppercase; }
+
+        /* --- 2. CARROSSEL DE FOTOS (HERO) --- */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(46, 134, 193, 0.2);
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px; color: white; pointer-events: none;
+        }
+
+        /* Badge de Status (Aberto/Fechado) */
+        .status-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: rgba(255,255,255,0.95);
+            padding: 6px 12px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; color: #333;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10; display: flex; align-items: center; gap: 6px;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: block; }
+        .bg-open { background: #27ae60; box-shadow: 0 0 5px #27ae60; }
+        .bg-closed { background: #c0392b; }
+
+        /* --- 3. MENU DE AÇÃO RÁPIDA --- */
+        .action-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+            padding: 20px 15px; margin-top: -10px;
+        }
+        .action-btn {
+            background: white; border-radius: 15px; padding: 15px 5px;
+            text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: 0.2s; cursor: pointer;
+        }
+        .action-btn:active { transform: scale(0.95); background: #f0f8ff; }
+        .ab-icon { 
+            font-size: 1.4rem; margin-bottom: 8px; color: var(--church-blue);
+            background: #eaf6ff; width: 45px; height: 45px; 
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; margin: 0 auto 8px;
+        }
+        .ab-label { font-size: 0.65rem; font-weight: 700; color: #555; }
+
+        /* --- 4. CARDS DE INFORMAÇÃO --- */
+        .content-area { padding: 0 15px; }
+        
+        .info-card {
+            background: white; border-radius: 15px; padding: 20px;
+            margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border-left: 4px solid var(--church-blue);
+        }
+        .card-title-custom { font-size: 1rem; color: var(--church-dark); font-weight: 700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        
+        /* Lista de Horários */
+        .schedule-list li {
+            font-size: 0.9rem; margin-bottom: 8px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;
+            display: flex; justify-content: space-between;
+        }
+        .schedule-list li:last-child { border: 0; }
+        
+        /* Card do Padre */
+        .profile-box { display: flex; align-items: center; gap: 15px; }
+        .profile-img { 
+            width: 55px; height: 55px; border-radius: 50%; background: #eee;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: #ccc; border: 2px solid var(--church-blue);
+        }
+
+        /* Comunidades (Accordion) */
+        .accordion-button:not(.collapsed) {
+            background-color: #eaf6ff; color: var(--church-dark);
+        }
+        .community-list { column-count: 2; font-size: 0.8rem; }
+
+        /* --- 5. BOTTOM NAVIGATION --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            background: white; border-top: 1px solid #eee;
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #95a5a6; text-decoration: none; width: 25%;
+        }
+        .nav-item i { font-size: 1.4rem; margin-bottom: 4px; }
+        .nav-item span { font-size: 0.65rem; font-weight: 600; }
+        .nav-item.active { color: var(--church-blue); }
+
+        /* FAB Doação */
+        .fab-donate {
+            position: fixed; bottom: 85px; right: 20px;
+            background: var(--accent); color: #333;
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
+            font-size: 1.3rem; z-index: 900; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7);} 70% {box-shadow: 0 0 0 10px rgba(241, 196, 15, 0);} 100% {box-shadow: 0 0 0 0 rgba(241, 196, 15, 0);} }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. CABEÇALHO -->
+    <header class="app-header">
+        <div class="logo-area">
+            <!-- Logo com fundo branco (o CSS mix-blend-mode ajuda a integrar) -->
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHaY0Jj1y7gdOtv6GNPb1a9L436thxFGZZZIzbsEE0FJbKLQcRvE-lUDi&s=10" alt="Logo" class="logo-img">
+            <div class="header-title">
+                <h1>Paróquia<br>São Geraldo</h1>
+                <small>Japonvar - MG</small>
+            </div>
+        </div>
+        <div onclick="window.open('https://wa.me/5538997254194', '_blank')" class="text-success">
+            <i class="fab fa-whatsapp fa-2x"></i>
+        </div>
+    </header>
+
+    <!-- 2. CARROSSEL DE FOTOS (HERO) -->
+    <div id="churchCarousel" class="carousel slide hero-slider" data-bs-ride="carousel">
+        <!-- Status da Secretaria -->
+        <div class="status-badge" id="officeStatus">
+            <span class="dot bg-closed"></span> Fechado
+        </div>
+        
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://www.minasgerais.com.br/imagens/atracoes/1677091495ycJNYn086X.jpg" alt="Fachada Frontal">
+            </div>
+            <div class="carousel-item">
+                <img src="https://arquimoc.org/wp-content/uploads/2024/01/Matriz-Japonvar.png" alt="Vista Lateral">
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.minasgerais.com.br/imagens/atracoes/1677091496qlJ5h8m6SI.jpg" alt="Interior">
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.minasgerais.com.br/imagens/atracoes/1677091496pNaI8jV0Bm.jpg" alt="Vitrais">
+            </div>
+        </div>
+        <div class="hero-overlay">
+            <h2 class="h6 m-0 text-white fw-bold">Igreja Matriz de São Geraldo</h2>
+            <p class="m-0 small opacity-75"><i class="fas fa-map-marker-alt me-1"></i> Pça. Pres. Castelo Branco, Centro</p>
+        </div>
+    </div>
+
+    <!-- 3. MENU RÁPIDO -->
+    <div class="quick-actions">
+        <div class="action-btn" onclick="scrollToId('missas')">
+            <div class="ab-icon"><i class="fas fa-clock"></i></div>
+            <div class="ab-label">Horários</div>
+        </div>
+        <div class="action-btn" onclick="scrollToId('comunidades')">
+            <div class="ab-icon" style="color: #e67e22; background: #fdf2e9;"><i class="fas fa-home"></i></div>
+            <div class="ab-label">Capelas</div>
+        </div>
+        <div class="action-btn" onclick="openMaps()">
+            <div class="ab-icon" style="color: #c0392b; background: #fdedec;"><i class="fas fa-map-marked-alt"></i></div>
+            <div class="ab-label">Mapa</div>
+        </div>
+        <div class="action-btn" onclick="openSecretaria()">
+            <div class="ab-icon" style="color: #27ae60; background: #eafaf1;"><i class="fas fa-phone-alt"></i></div>
+            <div class="ab-label">Contato</div>
+        </div>
+    </div>
+
+    <!-- 4. CONTEÚDO PRINCIPAL -->
+    <div class="content-area">
+
+        <!-- Card: Administração -->
+        <div class="info-card">
+            <div class="card-title-custom">Administração Paroquial</div>
+            <div class="profile-box">
+                <div class="profile-img"><i class="fas fa-user"></i></div>
+                <div>
+                    <h5 class="m-0" style="font-size: 0.95rem; font-weight: 700;">Pe. Márcio Antônio R. da Silva</h5>
+                    <p class="m-0 small text-muted">Administrador Paroquial</p>
+                </div>
+            </div>
+            <hr class="my-3 opacity-25">
+            <div class="d-flex justify-content-between small text-muted">
+                <span><i class="fas fa-user-edit me-1"></i> Sec: <strong>Milena</strong></span>
+                <span><i class="fas fa-broom me-1"></i> Zel: <strong>Naiane</strong></span>
+            </div>
+        </div>
+
+        <!-- Card: Horários -->
+        <div class="info-card" id="missas" style="border-left-color: var(--accent);">
+            <div class="card-title-custom justify-content-between">
+                <span><i class="fas fa-calendar-alt text-warning"></i> Horários de Missa</span>
+                <span class="badge bg-primary rounded-pill">Matriz</span>
+            </div>
+            <ul class="list-unstyled schedule-list m-0">
+                <li><span>Domingo (Manhã)</span> <strong>08:00</strong></li>
+                <li><span>Domingo (Noite)</span> <strong>19:00</strong></li>
+                <li><span>Quinta (Cura e Libertação)</span> <strong>19:00</strong></li>
+                <li><span>1ª Sexta do Mês</span> <strong>19:00</strong></li>
+                <li><span>1º Sábado do Mês</span> <strong>19:00</strong></li>
+            </ul>
+            <div class="mt-3 p-2 bg-light rounded text-center small text-muted">
+                <i class="fas fa-praying-hands me-1"></i> <strong>Confissões:</strong> Quinta-feira, 16h às 18h
+            </div>
+        </div>
+
+        <!-- Card: Comunidades (Accordion) -->
+        <div class="accordion mb-4" id="accordionComunidades">
+            <div class="accordion-item border-0 shadow-sm rounded overflow-hidden">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                        <i class="fas fa-users me-2 text-primary"></i> Ver Comunidades e Distritos
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionComunidades">
+                    <div class="accordion-body bg-white">
+                        <ul class="list-unstyled community-list m-0">
+                            <li>• Bom Jesus (Nova Minda)</li>
+                            <li>• São Sebastião (Ponte)</li>
+                            <li>• São Cristóvão</li>
+                            <li>• N. Sra. Aparecida (Quatis)</li>
+                            <li>• Santo Expedito</li>
+                            <li>• Santo Antônio (Lagoinha)</li>
+                            <li>• São Geraldo (Lagoinha II)</li>
+                            <li>• Santos Reis (Passagem)</li>
+                            <li>• N. Sra. Aparecida (Pau Preto)</li>
+                            <li>• São José (Porteiras)</li>
+                            <li>• Santa Rita de Cássia</li>
+                            <li>• Rosa Mística (Sta. Rosa)</li>
+                            <li>• N. Sra. Aparecida (Melancias)</li>
+                            <li>• São José (Vila de Andú)</li>
+                            <li>• Rancharia</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTÃO FLUTUANTE (DOAÇÃO) -->
+    <div class="fab-donate" onclick="openPixModal()">
+        <i class="fas fa-hand-holding-heart"></i>
+    </div>
+
+    <!-- 5. BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-church"></i>
+            <span>Paróquia</span>
+        </a>
+        <a href="#" onclick="scrollToId('missas')" class="nav-item">
+            <i class="far fa-calendar-alt"></i>
+            <span>Agenda</span>
+        </a>
+        <a href="https://wa.me/5538997254194" class="nav-item">
+            <i class="fab fa-whatsapp"></i>
+            <span>Contato</span>
+        </a>
+        <a href="#" onclick="alert('Área restrita à administração')" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Admin</span>
+        </a>
+    </nav>
+
+    <!-- MODAL PIX -->
+    <div class="modal fade" id="pixModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4">
+                <div class="modal-body text-center p-4">
+                    <i class="fas fa-qrcode fa-3x text-primary mb-3"></i>
+                    <h4>Dízimo e Ofertas</h4>
+                    <p class="small text-muted mb-3">Chave PIX (Telefone/Celular):</p>
+                    <div class="bg-light p-3 rounded mb-3 border d-flex justify-content-between align-items-center">
+                        <span class="fw-bold fs-5" id="pixKey">38997254194</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="copyPix()"><i class="far fa-copy"></i></button>
+                    </div>
+                    <button class="btn btn-primary w-100 rounded-pill fw-bold" onclick="copyPix()">COPIAR CHAVE PIX</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 1. STATUS SECRETARIA (08:00 - 12:00, Seg-Sex)
+        function checkOffice() {
+            const now = new Date();
+            const day = now.getDay();
+            const hour = now.getHours();
+            const badge = document.getElementById('officeStatus');
+
+            // Seg(1) a Sex(5), das 08h às 12h
+            const isOpen = (day >= 1 && day <= 5) && (hour >= 8 && hour < 12);
+
+            if(isOpen) {
+                badge.innerHTML = '<span class="dot bg-open"></span> Secretaria Aberta';
+                badge.style.color = '#14532d';
+            } else {
+                badge.innerHTML = '<span class="dot bg-closed"></span> Fechado Agora';
+                badge.style.color = '#7f1d1d';
+            }
+        }
+        checkOffice();
+
+        // 2. FUNÇÕES UX
+        function scrollToId(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function openMaps() {
+            // Endereço exato fornecido
+            window.open('https://maps.google.com/?q=Praca+Presidente+Castelo+Branco,Japonvar,MG');
+        }
+
+        function openSecretaria() {
+            window.location.href = "tel:38997254194";
+        }
+
+        function openPixModal() {
+            new bootstrap.Modal(document.getElementById('pixModal')).show();
+        }
+
+        function copyPix() {
+            const key = "38997254194";
+            navigator.clipboard.writeText(key).then(() => {
+                alert("Chave PIX copiada! Abra seu app de banco.");
+            });
+        }
+    </script>
+</body>
+</html>
