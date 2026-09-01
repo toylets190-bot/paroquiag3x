@@ -3,68 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1e3a8a">
-    <meta name="description" content="Aplicativo Web da Paróquia São Geraldo em Japonvar - MG">
-    <title>Paróquia São Geraldo - Japonvar</title>
+    <meta name="theme-color" content="#0F172A">
+    <meta name="description" content="Portal Oficial da Paróquia São Geraldo - Japonvar MG">
+    <title>Paróquia São Geraldo - Japonvar/MG</title>
     
-    <!-- Bootstrap 5 -->
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome Pro (Free via CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome Pro 6.5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            /* Paleta Oficial */
+            /* Paleta Nobre Sacra */
             --bg-color: #F8FAFC;
             --surface-color: #FFFFFF;
-            --text-main: #1E293B;
+            --surface-glass: rgba(255, 255, 255, 0.85);
+            --text-main: #0F172A;
             --text-muted: #64748B;
             
-            --primary: #1E3A8A; /* Azul Escuro */
-            --accent-blue: #3B82F6; /* Azul Alegre */
-            --accent-gold: #D97706; /* Dourado */
-            
-            --sacred-heart: #E11D48; /* Vermelho 1ª Sexta */
-            --mary-heart: #0284C7;   /* Azul 1º Sábado */
-            
+            --primary: #1E3A8A; /* Azul Real */
+            --primary-dark: #0F172A;
+            --accent-gold: #D97706; /* Ouro Litúrgico */
+            --accent-gold-gradient: linear-gradient(135deg, #F59E0B, #B45309);
+            --sacred-red: #BE123C;
+            --mary-blue: #0284C7;
             --whatsapp: #10B981;
-            --youtube: #FF0000;
-            --nav-height: 70px;
-            --radius-xl: 20px;
-            --shadow-sm: 0 4px 15px rgba(0,0,0,0.04);
-            --shadow-md: 0 10px 30px rgba(30, 58, 138, 0.08);
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --shadow-card: 0 14px 40px rgba(30, 58, 138, 0.08);
+            --shadow-glow: 0 0 25px rgba(217, 119, 6, 0.3);
+            --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* DARK MODE */
         [data-theme="dark"] {
-            --bg-color: #0F172A;
-            --surface-color: #1E293B;
-            --text-main: #F8FAFC;
+            --bg-color: #0B0F19;
+            --surface-color: #151C2C;
+            --surface-glass: rgba(21, 28, 44, 0.85);
+            --text-main: #F1F5F9;
             --text-muted: #94A3B8;
-            --primary: #93C5FD;
-            --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
-            --shadow-sm: 0 4px 15px rgba(0,0,0,0.2);
+            --primary: #60A5FA;
+            --shadow-card: 0 14px 40px rgba(0, 0, 0, 0.4);
+            --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         body { 
             font-family: 'Outfit', sans-serif; 
             background-color: var(--bg-color); 
             color: var(--text-main); 
-            padding-bottom: calc(var(--nav-height) + 20px); 
+            padding-bottom: 95px; 
             overflow-x: hidden; 
-            transition: background-color var(--transition), color var(--transition); 
+            transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
         }
-        
-        .font-serif { font-family: 'Playfair Display', serif; }
 
-        /* HEADER */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+
+        /* TICKER LITÚRGICO */
+        .liturgy-ticker {
+            background: var(--primary-dark);
+            color: #F8FAFC;
+            font-size: 0.78rem;
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+        }
+        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* HEADER GLASSMÓRFICO */
         .app-header { 
-            background: rgba(var(--surface-color), 0.9); 
-            backdrop-filter: blur(10px); 
-            padding: 12px 20px; 
+            background: var(--surface-glass); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            padding: 14px 20px; 
             position: sticky; 
             top: 0; 
             z-index: 1000; 
@@ -72,408 +92,468 @@
             align-items: center; 
             justify-content: space-between; 
             border-bottom: 1px solid rgba(100,116,139,0.1); 
-            transition: background-color var(--transition);
         }
-        [data-theme="dark"] .app-header { background: rgba(30, 41, 59, 0.9); }
-        .logo-img { height: 40px; mix-blend-mode: multiply; border-radius: 50%; transition: var(--transition); }
-        [data-theme="dark"] .logo-img { mix-blend-mode: normal; background: white; padding: 2px; }
-        .church-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin: 0; line-height: 1; }
+        .logo-box { position: relative; }
+        .logo-img { height: 46px; width: 46px; object-fit: cover; border-radius: 50%; border: 2px solid var(--accent-gold); box-shadow: var(--shadow-glow); }
+        .church-title { font-size: 1.2rem; font-weight: 700; color: var(--primary); margin: 0; line-height: 1.1; letter-spacing: -0.3px; }
 
-        /* VIEWS */
-        .app-view { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .app-view.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* TELA SPA */
+        .app-view { display: none; opacity: 0; transform: translateY(16px); transition: var(--transition); }
+        .app-view.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* COMPONENTES */
-        .card-glass { 
+        /* CARDS LUXO */
+        .card-lux { 
             background: var(--surface-color); 
             border-radius: var(--radius-xl); 
-            padding: 20px; 
-            margin: 0 15px 20px; 
-            box-shadow: var(--shadow-sm); 
+            padding: 24px; 
+            margin: 0 16px 22px; 
+            box-shadow: var(--shadow-card); 
             border: 1px solid rgba(100,116,139,0.08); 
-            transition: background-color var(--transition);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
         }
-        .section-title { padding: 20px 15px 10px; font-size: 1.25rem; font-weight: 700; color: var(--primary); margin: 0; display: flex; align-items: center; gap: 8px; }
-        .section-title i { color: var(--accent-gold); font-size: 1rem; }
+        .card-lux::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--accent-gold-gradient); opacity: 0.8;
+        }
 
-        /* HERO & STATUS */
-        .hero-container { padding: 10px 15px; position: relative; }
-        .hero-slider { border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md); height: 230px; position: relative; }
-        .hero-slider img { width: 100%; height: 230px; object-fit: cover; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.95), transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; color: white; }
-        .status-badge { position: absolute; top: 20px; right: 25px; z-index: 10; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 6px; transition: var(--transition); }
+        .section-title { padding: 22px 20px 14px; font-size: 1.25rem; font-weight: 700; color: var(--primary); margin: 0; display: flex; align-items: center; justify-content: space-between; }
+        .section-title i { color: var(--accent-gold); }
 
-        /* QUICK ACTIONS */
-        .quick-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 5px 15px 20px; scrollbar-width: none; }
-        .quick-scroll::-webkit-scrollbar { display: none; }
-        .action-pill { background: var(--surface-color); flex: 0 0 auto; padding: 12px 20px; border-radius: 15px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); border: 1px solid rgba(100,116,139,0.08); transition: transform 0.2s; cursor: pointer; }
-        .action-pill:active { transform: scale(0.97); }
-        .action-icon { font-size: 1.5rem; }
+        /* BANNER HERO SLIDER */
+        .hero-container { padding: 0 16px; position: relative; margin-top: 10px; }
+        .hero-slider { border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-card); height: 240px; position: relative; }
+        .hero-slider img { width: 100%; height: 240px; object-fit: cover; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(11, 15, 25, 0.95), rgba(11, 15, 25, 0.2)); display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; color: white; }
+        
+        .status-badge { position: absolute; top: 16px; right: 24px; z-index: 10; padding: 7px 16px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 
-        /* AGENDA TABLE */
+        /* AUDIO PLAYER MOCKUP */
+        .audio-player-card {
+            background: linear-gradient(135deg, #1E3A8A, #0F172A);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin: 0 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-card);
+        }
+        .play-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--accent-gold); color: white; border: none; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: var(--transition); flex-shrink: 0; }
+        .play-btn:hover { transform: scale(1.08); box-shadow: var(--shadow-glow); }
+        .waveform { display: flex; align-items: center; gap: 3px; height: 20px; }
+        .wave-bar { width: 3px; height: 100%; background: rgba(255,255,255,0.4); border-radius: 3px; animation: wave 1.2s infinite ease-in-out alternate; }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.6s; }
+        @keyframes wave { 0% { height: 20%; } 100% { height: 100%; } }
+
+        /* GRID DE AÇÕES RÁPIDAS */
+        .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 10px 16px 20px; }
+        .action-card { background: var(--surface-color); padding: 16px 10px; border-radius: var(--radius-lg); text-align: center; text-decoration: none; color: var(--text-main); border: 1px solid rgba(100,116,139,0.08); box-shadow: var(--shadow-subtle); transition: var(--transition); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .action-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .action-icon-box { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+
+        /* VELA VIRTUAL ANIMADA */
+        .candle-box { text-align: center; padding: 20px 10px; background: linear-gradient(to bottom, rgba(217, 119, 6, 0.05), transparent); border-radius: var(--radius-lg); border: 1px dashed rgba(217, 119, 6, 0.3); }
+        .candle-container { position: relative; width: 30px; height: 70px; margin: 0 auto 15px; }
+        .candle-stick { width: 22px; height: 50px; background: linear-gradient(to right, #FFFBEB, #FDE68A); position: absolute; bottom: 0; left: 4px; border-radius: 4px; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1); }
+        .candle-wick { width: 2px; height: 8px; background: #451A03; position: absolute; top: 14px; left: 14px; }
+        .candle-flame { 
+            width: 14px; height: 24px; background: radial-gradient(ellipse at bottom, #FEF08A, #F59E0B, #DC2626); 
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; position: absolute; top: -4px; left: 8px;
+            animation: flicker 0.1s infinite alternate; filter: drop-shadow(0 0 10px #F59E0B); display: none;
+        }
+        .candle-flame.active { display: block; }
+        @keyframes flicker { 0% { transform: scale(1) rotate(-2deg); } 100% { transform: scale(1.1) rotate(2deg); } }
+
+        /* TABELA DE HORÁRIOS */
         .agenda-table { width: 100%; font-size: 0.95rem; }
-        .agenda-table tr { border-bottom: 1px solid rgba(100,116,139,0.1); }
+        .agenda-table tr { border-bottom: 1px solid rgba(100,116,139,0.08); }
         .agenda-table tr:last-child { border: none; }
-        .agenda-table td { padding: 15px 0; vertical-align: top; }
-        .agenda-day { font-weight: 700; color: var(--primary); width: 30%; }
-        .agenda-event { color: var(--text-muted); line-height: 1.4; }
-        .agenda-time { font-weight: 700; color: var(--text-main); background: var(--bg-color); padding: 4px 8px; border-radius: 6px; float: right; font-size: 0.8rem; border: 1px solid rgba(100,116,139,0.1); }
-
-        /* AVISOS CARDS */
-        .aviso-card { background: var(--surface-color); padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-        .aviso-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--border-color, var(--primary)); }
-        .aviso-data { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; margin-bottom: 8px;}
-
-        /* LISTA EXPANSÍVEL (DETAILS) */
-        details summary { cursor: pointer; list-style: none; transition: var(--transition); }
-        details summary::-webkit-details-marker { display: none; }
-        details[open] summary .fa-chevron-down { transform: rotate(180deg); }
+        .agenda-table td { padding: 16px 0; vertical-align: top; }
+        .agenda-day { font-weight: 700; color: var(--primary); width: 28%; font-size: 0.9rem; }
+        .agenda-event { color: var(--text-muted); line-height: 1.4; font-size: 0.88rem; }
+        .agenda-time { font-weight: 700; color: var(--text-main); background: var(--bg-color); padding: 5px 12px; border-radius: 10px; float: right; font-size: 0.8rem; border: 1px solid rgba(100,116,139,0.1); }
 
         /* BOTTOM NAV */
-        .bottom-nav-wrapper { position: fixed; bottom: 15px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000; padding: 0 15px; }
-        .bottom-nav { background: rgba(var(--surface-color), 0.95); backdrop-filter: blur(10px); border-radius: 30px; box-shadow: var(--shadow-md); display: flex; justify-content: space-around; align-items: center; width: 100%; height: var(--nav-height); padding: 0 5px; border: 1px solid rgba(100,116,139,0.1); position: relative; }
+        .bottom-nav-wrapper { position: fixed; bottom: 16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000; padding: 0 16px; }
+        .bottom-nav { background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 40px; box-shadow: var(--shadow-card); display: flex; justify-content: space-around; align-items: center; width: 100%; height: 72px; padding: 0 6px; border: 1px solid rgba(255, 255, 255, 0.2); }
         
         .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); width: 20%; background: none; border: none; padding: 0; cursor: pointer; position: relative; transition: var(--transition); z-index: 2; }
-        .nav-item i { font-size: 1.25rem; margin-bottom: 2px; transition: var(--transition); }
-        .nav-item span { font-size: 0.65rem; font-weight: 600; opacity: 0; transform: translateY(5px); transition: var(--transition); position: absolute; bottom: 8px;}
+        .nav-item i { font-size: 1.3rem; margin-bottom: 3px; transition: var(--transition); }
+        .nav-item span { font-size: 0.65rem; font-weight: 700; opacity: 0; transform: translateY(8px); transition: var(--transition); position: absolute; bottom: 8px;}
         
-        .nav-item.active { color: var(--accent-blue); }
+        .nav-item.active { color: var(--primary); }
         .nav-item.active span { opacity: 1; transform: translateY(0); }
-        .nav-item.active i { transform: translateY(-12px); }
+        .nav-item.active i { transform: translateY(-10px) scale(1.15); color: var(--accent-gold); }
 
-        /* FAB PIX */
-        .fab-pix { background: linear-gradient(135deg, var(--accent-gold), #B45309); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(217, 119, 6, 0.4); transform: translateY(-15px); border: 4px solid var(--bg-color); transition: transform 0.2s; cursor: pointer; z-index: 3; }
-        .fab-pix:active { transform: translateY(-15px) scale(0.95); }
-        [data-theme="dark"] .fab-pix { border-color: var(--bg-color); }
+        /* FAB PIX CENTRAL */
+        .fab-pix { background: var(--accent-gold-gradient); color: white; width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: var(--shadow-glow); transform: translateY(-18px); border: 4px solid var(--bg-color); transition: var(--transition); cursor: pointer; z-index: 3; }
+        .fab-pix:active { transform: translateY(-18px) scale(0.92); }
 
-        /* MODALS */
+        /* SEARCH BAR */
+        .search-box { background: var(--surface-color); border: 1px solid rgba(100,116,139,0.15); border-radius: 16px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; margin: 0 16px 18px; box-shadow: var(--shadow-subtle); }
+        .search-box input { border: none; background: transparent; outline: none; color: var(--text-main); width: 100%; font-size: 0.92rem; }
+
+        /* MODAIS */
         .modal-content { background-color: var(--surface-color); color: var(--text-main); border-radius: var(--radius-xl); border: 1px solid rgba(100,116,139,0.1); }
-        .modal-header, .modal-footer { border-color: rgba(100,116,139,0.1); }
-        .btn-close { filter: var(--close-filter, none); }
-        [data-theme="dark"] .btn-close { --close-filter: invert(1) grayscale(100%) brightness(200%); }
     </style>
 </head>
 <body data-theme="light">
 
-    <!-- CABEÇALHO -->
+    <!-- TICKER DE NOTÍCIAS LITÚRGICAS -->
+    <div class="liturgy-ticker">
+        <div class="ticker-content">
+            ✨ <strong class="text-warning">Paz e Bem!</strong> Bem-vindo ao Portal da Paróquia São Geraldo — Japonvar/MG &nbsp;&nbsp;&nbsp;&nbsp; ⛪ <strong class="text-warning">Missa Dominical:</strong> 08h e 19h na Matriz &nbsp;&nbsp;&nbsp;&nbsp; 📜 <strong class="text-warning">Secretaria:</strong> Terça a Sexta das 08h às 12h
+        </div>
+    </div>
+
+    <!-- CABEÇALHO FIXO E ELEGANTE -->
     <header class="app-header">
         <div class="d-flex align-items-center gap-3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHaY0Jj1y7gdOtv6GNPb1a9L436thxFGZZZIzbsEE0FJbKLQcRvE-lUDi&s=10" alt="Logo da Paróquia São Geraldo" class="logo-img">
+            <div class="logo-box">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHaY0Jj1y7gdOtv6GNPb1a9L436thxFGZZZIzbsEE0FJbKLQcRvE-lUDi&s=10" alt="Logo Paróquia São Geraldo" class="logo-img">
+            </div>
             <div>
-                <p class="greeting m-0" style="font-size: 0.7rem; color: var(--text-muted);" id="greetingText">Paz e Bem!</p>
-                <h1 class="church-title font-serif">São Geraldo</h1>
+                <p class="greeting m-0 text-muted small fw-semibold" id="greetingText">Paz e Bem!</p>
+                <h1 class="church-title font-cinzel">SÃO GERALDO</h1>
             </div>
         </div>
-        <button class="btn p-0 text-muted" onclick="toggleTheme()" aria-label="Alternar tema claro/escuro">
+        <button class="btn p-2 text-muted rounded-circle" onclick="toggleTheme()" aria-label="Alternar Tema">
             <i class="fas fa-moon fs-5" id="themeIcon"></i>
         </button>
     </header>
 
     <!-- ==========================================
-         TELA 1: INÍCIO
+         TELA 1: INÍCIO (HOME HUB)
     =========================================== -->
     <main id="view-home" class="app-view active">
         
-        <!-- Hero Slider -->
-        <section class="hero-container mt-2">
+        <!-- HERO BANNER SLIDER -->
+        <section class="hero-container">
             <div id="officeBadge" class="status-badge bg-danger text-white">
-                <i class="fas fa-door-closed"></i> Fechado
+                <i class="fas fa-door-closed me-1"></i> Fechado
             </div>
             
             <div id="heroCarousel" class="carousel slide hero-slider" data-bs-ride="carousel">
                 <div class="carousel-inner h-100">
                     <div class="carousel-item active h-100">
-                        <img src="https://arquimoc.org/wp-content/uploads/2024/01/Matriz-Japonvar.png" alt="Foto da Matriz São Geraldo" loading="lazy">
+                        <img src="https://arquimoc.org/wp-content/uploads/2024/01/Matriz-Japonvar.png" alt="Igreja Matriz São Geraldo">
                     </div>
                     <div class="carousel-item h-100">
-                        <img src="https://www.minasgerais.com.br/imagens/atracoes/1677091495ycJNYn086X.jpg" alt="Fachada da Igreja em Japonvar" loading="lazy">
+                        <img src="https://www.minasgerais.com.br/imagens/atracoes/1677091495ycJNYn086X.jpg" alt="Praça e Igreja Japonvar">
                     </div>
                 </div>
                 <div class="hero-overlay">
-                    <span class="badge bg-primary mb-2 w-auto align-self-start" style="font-size: 0.65rem; letter-spacing: 1px;">
-                        <i class="fas fa-map-marker-alt"></i> JAPONVAR - MG
+                    <span class="badge bg-primary mb-2 w-auto align-self-start font-cinzel px-3 py-1" style="letter-spacing: 1px;">
+                        <i class="fas fa-cross me-1"></i> JAPONVAR - MG
                     </span>
-                    <h2 class="font-serif h4 m-0 text-white">Comunidade de Fé,<br>Cultura e Tradição.</h2>
+                    <h2 class="font-serif h4 m-0 text-white">Casa de Deus, Morada da Nossa Comunidade.</h2>
                 </div>
             </div>
         </section>
 
-        <!-- Ações Rápidas -->
-        <nav class="quick-scroll mt-3" aria-label="Ações rápidas">
-            <a href="https://wa.me/5538997504800" class="action-pill" target="_blank" rel="noopener">
-                <i class="fab fa-whatsapp action-icon" style="color: var(--whatsapp);"></i>
-                <div>
-                    <h6 class="m-0 fw-bold fs-6">Secretaria</h6>
-                    <small class="text-muted" style="font-size: 0.7rem;">Falar com Milena</small>
-                </div>
-            </a>
-            <div class="action-pill" onclick="new bootstrap.Modal(document.getElementById('modalIntencao')).show()" role="button" tabindex="0">
-                <i class="fas fa-pray action-icon" style="color: var(--accent-gold);"></i>
-                <div>
-                    <h6 class="m-0 fw-bold fs-6">Intenções</h6>
-                    <small class="text-muted" style="font-size: 0.7rem;">Marcar Missa</small>
+        <!-- REFLEXÃO EM ÁUDIO DO PÁROCO -->
+        <section class="mt-3">
+            <div class="audio-player-card">
+                <button class="play-btn" id="audioPlayBtn" onclick="toggleAudioReflexao()">
+                    <i class="fas fa-play" id="audioIcon"></i>
+                </button>
+                <div class="w-100">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="badge bg-warning text-dark font-cinzel" style="font-size: 0.65rem;">Voz do Pároco</span>
+                        <small class="text-white-50" style="font-size: 0.7rem;">Pe. Márcio Antônio</small>
+                    </div>
+                    <h6 class="m-0 font-serif fw-bold text-white fs-6">Palavra da Semana</h6>
+                    <div class="waveform mt-2" id="waveform">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
                 </div>
             </div>
-            <a href="https://www.youtube.com/@ParoquiaSaoGeraldoJaponvar" class="action-pill" target="_blank" rel="noopener">
-                <i class="fab fa-youtube action-icon" style="color: var(--youtube);"></i>
-                <div>
-                    <h6 class="m-0 fw-bold fs-6">TV Paróquia</h6>
-                    <small class="text-muted" style="font-size: 0.7rem;">Missa ao Vivo</small>
-                </div>
-            </a>
-        </nav>
+        </section>
 
-        <!-- Agenda da Matriz -->
-        <section>
-            <div class="section-title pt-0">
-                <i class="fas fa-calendar-alt"></i> Horários da Matriz
+        <!-- AÇÕES RÁPIDAS COM DESIGN ELEGANTE -->
+        <section class="quick-grid">
+            <div class="action-card" onclick="switchTab('view-liturgia', document.querySelectorAll('.nav-item')[2])">
+                <div class="action-icon-box" style="background: rgba(139, 92, 246, 0.12); color: #8B5CF6;">
+                    <i class="fas fa-book-bible"></i>
+                </div>
+                <span>Liturgia</span>
             </div>
-            <div class="card-glass">
+            <div class="action-card" onclick="new bootstrap.Modal(document.getElementById('modalIntencao')).show()">
+                <div class="action-icon-box" style="background: rgba(217, 119, 6, 0.12); color: var(--accent-gold);">
+                    <i class="fas fa-pray"></i>
+                </div>
+                <span>Intenções</span>
+            </div>
+            <a href="https://wa.me/5538997504800" target="_blank" class="action-card">
+                <div class="action-icon-box" style="background: rgba(16, 185, 129, 0.12); color: var(--whatsapp);">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <span>Secretaria</span>
+            </a>
+            <a href="https://www.youtube.com/@ParoquiaSaoGeraldoJaponvar" target="_blank" class="action-card">
+                <div class="action-icon-box" style="background: rgba(239, 68, 68, 0.12); color: #EF4444;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <span>TV Matriz</span>
+            </a>
+        </section>
+
+        <!-- HORÁRIOS DA MATRIZ -->
+        <section>
+            <div class="section-title">
+                <span><i class="fas fa-clock me-2"></i> Celebrando a Fé</span>
+            </div>
+            <div class="card-lux">
                 <table class="agenda-table">
                     <tr>
                         <td class="agenda-day">Domingo</td>
-                        <td class="agenda-event">Santa Missa</td>
+                        <td class="agenda-event">Santa Missa Dominical</td>
                         <td><span class="agenda-time">08h | 19h</span></td>
                     </tr>
                     <tr>
                         <td class="agenda-day">Quinta</td>
                         <td class="agenda-event">
-                            Adoração ao Santíssimo<br>
-                            <small class="text-primary fw-bold">Confissões no mesmo horário</small><br>
-                            <div class="mt-2 pt-2 border-top border-light">Santa Missa</div>
+                            Adoração & Confissões<br>
+                            <small class="text-primary fw-bold">Confissões das 16h às 18h</small><br>
+                            <div class="mt-2 pt-2 border-top">Santa Missa de Cura</div>
                         </td>
                         <td>
-                            <span class="agenda-time mb-3 d-block text-center">16h - 18h</span>
+                            <span class="agenda-time mb-2 d-block text-center">16h - 18h</span>
                             <span class="agenda-time text-center w-100">19h</span>
                         </td>
                     </tr>
                     <tr>
-                        <td class="agenda-day" style="color: var(--sacred-heart);">1ª Sexta</td>
+                        <td class="agenda-day" style="color: var(--sacred-red);">1ª Sexta</td>
                         <td class="agenda-event">
                             <strong>Sagrado Coração de Jesus</strong><br>
-                            <small style="color: var(--sacred-heart);">Missa Votiva e Devoção</small>
+                            <small style="color: var(--sacred-red);">Missa Votiva & Apostolado</small>
                         </td>
-                        <td><span class="agenda-time" style="color: var(--sacred-heart); border-color: var(--sacred-heart);">18h</span></td>
+                        <td><span class="agenda-time" style="color: var(--sacred-red); border-color: var(--sacred-red);">18h</span></td>
                     </tr>
                     <tr>
-                        <td class="agenda-day" style="color: var(--mary-heart);">1º Sábado</td>
+                        <td class="agenda-day" style="color: var(--mary-blue);">1º Sábado</td>
                         <td class="agenda-event">
                             <strong>Imaculado Coração de Maria</strong><br>
-                            <small style="color: var(--mary-heart);">Rosário e Confissão</small><br>
-                            <div class="mt-2 pt-2 border-top border-light">Santa Missa</div>
+                            <small style="color: var(--mary-blue);">Rosário Solene & Missa</small>
                         </td>
                         <td>
-                            <span class="agenda-time mb-3 d-block text-center" style="color: var(--mary-heart); border-color: var(--mary-heart);">06h</span>
-                            <span class="agenda-time text-center w-100" style="color: var(--mary-heart); border-color: var(--mary-heart);">08h</span>
+                            <span class="agenda-time mb-2 d-block text-center" style="color: var(--mary-blue);">06h</span>
+                            <span class="agenda-time text-center w-100" style="color: var(--mary-blue);">08h</span>
                         </td>
                     </tr>
                 </table>
             </div>
         </section>
-    </main>
 
-    <!-- ==========================================
-         TELA 2: AVISOS
-    =========================================== -->
-    <main id="view-avisos" class="app-view">
-        <h2 class="section-title"><i class="fas fa-bullhorn"></i> Mural de Avisos</h2>
-        <section class="px-3">
-            
-            <article class="aviso-card" style="--border-color: #EF4444;">
-                <span class="aviso-data" style="color: #EF4444;"><i class="fas fa-exclamation-circle"></i> ATENÇÃO SECRETARIA</span>
-                <h5 class="font-serif m-0 mb-2">Funcionamento</h5>
-                <p class="small text-muted m-0">Lembramos a todos os paroquianos que nossa secretaria <strong>não funciona às segundas-feiras</strong>. O atendimento ocorre de Terça a Sexta-feira, das 08:00 às 12:00.</p>
-            </article>
-
-            <article class="aviso-card" style="--border-color: var(--primary);">
-                <span class="aviso-data text-primary"><i class="fas fa-users"></i> ENCONTROS SEMANAIS</span>
-                <h5 class="font-serif m-0 mb-2">Terço dos Filhos e Homens</h5>
-                <p class="small text-muted m-0">
-                    • <strong>Segunda, 19h:</strong> Terço pelos Filhos.<br>
-                    • <strong>Sexta, 19h:</strong> Terço dos Homens na Matriz. Venha rezar conosco!
-                </p>
-            </article>
-
-            <article class="aviso-card" style="--border-color: var(--accent-gold);">
-                <span class="aviso-data" style="color: var(--accent-gold);"><i class="fas fa-calendar-alt"></i> PROGRAME-SE</span>
-                <h5 class="font-serif m-0 mb-2">Festa de São Geraldo</h5>
-                <p class="small text-muted m-0">A comissão de festas já está se reunindo. Prepare-se para a tradicional Festa do Biscoito e as apresentações culturais na nossa praça!</p>
-            </article>
-
+        <!-- VELA VIRTUAL INTERATIVA -->
+        <section class="px-3 mb-4">
+            <div class="candle-box card-lux">
+                <div class="candle-container">
+                    <div class="candle-flame" id="virtualFlame"></div>
+                    <div class="candle-wick"></div>
+                    <div class="candle-stick"></div>
+                </div>
+                <h6 class="font-serif fw-bold mb-1">Vela Virtual de Intercessão</h6>
+                <p class="small text-muted mb-3">Acenda uma vela em intenção à sua família ou por uma graça alcançada.</p>
+                <button class="btn btn-warning rounded-pill px-4 fw-bold text-dark shadow-sm" id="btnLightCandle" onclick="lightVirtualCandle()">
+                    <i class="fas fa-fire me-2"></i> Acender Minha Vela (<span id="candleCount">142</span>)
+                </button>
+            </div>
         </section>
+
     </main>
 
     <!-- ==========================================
-         TELA 3: A PARÓQUIA
+         TELA 2: CAPELAS & COMUNIDADES
     =========================================== -->
     <main id="view-paroquia" class="app-view">
-        
-        <section>
-            <h2 class="section-title pt-3"><i class="fas fa-camera-retro"></i> Cultura Local</h2>
-            <div class="card-glass">
-                <p class="small text-muted mb-0" style="text-align: justify; line-height: 1.6;">A Igreja Matriz de São Geraldo é o <strong>coração de Japonvar</strong>. Além de ser o nosso centro de fé, o prédio e a praça são o grande palco cultural da cidade, onde celebramos a tradicional <strong>Festa do Biscoito</strong>, as vibrantes <strong>quadrilhas</strong> e as grandiosas festividades em honra ao nosso padroeiro.</p>
-                <a href="https://www.facebook.com/paroquiasaogeraldojaponvar/" target="_blank" rel="noopener" class="btn w-100 fw-bold mt-3" style="background: rgba(24, 119, 242, 0.1); color: #1877F2; border-radius: 10px;">
-                    <i class="fab fa-facebook me-1"></i> Ver Fotos no Facebook
-                </a>
-            </div>
-        </section>
+        <div class="section-title">
+            <span><i class="fas fa-church me-2"></i> As 15 Comunidades</span>
+        </div>
 
-        <section>
-            <h2 class="section-title pt-0"><i class="fas fa-map-signs"></i> As 15 Comunidades</h2>
-            <div class="card-glass p-0 overflow-hidden mb-4">
-                <ul class="list-unstyled m-0 small">
-                    <li class="p-3 border-bottom d-flex justify-content-between align-items-center" style="background: rgba(30, 58, 138, 0.05);"><strong class="text-primary"><i class="fas fa-church me-2"></i> Matriz S. Geraldo</strong> <span class="badge bg-primary">Centro</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>Bom Jesus</strong> <span class="text-muted">Nova Minda</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>São Sebastião</strong> <span class="text-muted">Ponte do Mangaí</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>São Cristóvão</strong> <span class="text-muted">Vila S. Cristóvão</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>N. Sra. Aparecida</strong> <span class="text-muted">Quatis</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>Santo Expedito</strong> <span class="text-muted">Dois Barreiros</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>Santo Antônio</strong> <span class="text-muted">Barra da Lagoinha</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>São Geraldo</strong> <span class="text-muted">Lagoinha II</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>Santos Reis</strong> <span class="text-muted">Passagem Funda</span></li>
-                    <li class="p-3 border-bottom d-flex justify-content-between"><strong>N. Sra. Aparecida</strong> <span class="text-muted">Pau Preto</span></li>
-                    
-                    <!-- Expansão Nativa (Sem JS) -->
-                    <li>
-                        <details>
-                            <summary class="p-3 text-center text-primary fw-bold bg-light">
-                                Ver mais 5 capelas <i class="fas fa-chevron-down ms-1"></i>
-                            </summary>
-                            <div class="bg-light px-3 pb-3">
-                                <ul class="list-unstyled m-0 border-top pt-2">
-                                    <li class="py-2 d-flex justify-content-between"><strong>São José</strong> <span class="text-muted">Porteiras</span></li>
-                                    <li class="py-2 d-flex justify-content-between"><strong>Santa Rita de Cássia</strong> <span class="text-muted">Comunidade</span></li>
-                                    <li class="py-2 d-flex justify-content-between"><strong>Rosa Mística</strong> <span class="text-muted">Santa Rosa</span></li>
-                                    <li class="py-2 d-flex justify-content-between"><strong>N. Sra. Aparecida</strong> <span class="text-muted">Melancias</span></li>
-                                    <li class="py-2 d-flex justify-content-between"><strong>São José</strong> <span class="text-muted">Vila de Andú</span></li>
-                                </ul>
-                            </div>
-                        </details>
-                    </li>
-                </ul>
-            </div>
+        <div class="search-box">
+            <i class="fas fa-search text-muted"></i>
+            <input type="text" id="searchCapela" onkeyup="filterCapelas()" placeholder="Encontre sua comunidade ou capela...">
+        </div>
+
+        <section class="px-3" id="capelasList">
+            <!-- Capelas Inseridas via JS -->
         </section>
     </main>
 
     <!-- ==========================================
-         TELA 4: SERVIÇOS & CONTATO
+         TELA 3: LITURGIA & ORAÇÕES
     =========================================== -->
-    <main id="view-servicos" class="app-view">
-        
-        <section>
-            <h2 class="section-title pt-3"><i class="fas fa-user-tie"></i> Administração</h2>
-            <div class="card-glass d-flex align-items-center gap-3">
-                <img src="https://arquimoc.org/wp-content/uploads/2022/06/Pe.-Marcio-Antonio-site.png" alt="Foto do Padre Márcio" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
+    <main id="view-liturgia" class="app-view">
+        <div class="section-title">
+            <span><i class="fas fa-cross me-2"></i> Liturgia & Espiritualidade</span>
+        </div>
+
+        <!-- SANTO DO DIA -->
+        <div class="card-lux" style="border-left: 4px solid var(--accent-gold);">
+            <div class="d-flex align-items-center gap-3 mb-2">
+                <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(217, 119, 6, 0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-gold);">
+                    <i class="fas fa-halo fs-4"></i>
+                </div>
                 <div>
-                    <h3 class="font-serif h5 m-0 text-primary">Pe. Márcio Antônio R. da Silva</h3>
-                    <span class="text-muted font-title d-block mb-1 small">Administrador Paroquial</span>
-                    <span class="text-muted small">Ord: 20/08/2011</span>
+                    <span class="badge bg-warning text-dark font-cinzel">Santo do Dia</span>
+                    <h5 class="font-serif m-0 mt-1" id="saintName">São Geraldo Majella</h5>
                 </div>
             </div>
-        </section>
+            <p class="small text-muted m-0" style="line-height: 1.6;">
+                Padroeiro de Japonvar, protetor das mães e das gestantes. Exemplo heroico de humildade, fé inabalável e amor aos mais necessitados.
+            </p>
+        </div>
 
-        <section>
-            <h2 class="section-title pt-0"><i class="fas fa-headset"></i> Secretaria</h2>
-            <div class="card-glass">
-                <p class="small text-danger fw-bold mb-3"><i class="far fa-clock"></i> Atendimento: Terça a Sexta, das 08h às 12h. (Fechada às Segundas)</p>
-                
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div style="width:40px; height:40px; border-radius:12px; background:rgba(16,185,129,0.1); color:var(--whatsapp); display:flex; align-items:center; justify-content:center;"><i class="fas fa-user"></i></div>
-                    <div><h6 class="m-0 fw-bold" style="font-size:0.95rem;">Milena Pereira</h6><span class="text-muted small">Secretária</span></div>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <div style="width:40px; height:40px; border-radius:12px; background:rgba(212,175,55,0.1); color:var(--accent-gold); display:flex; align-items:center; justify-content:center;"><i class="fas fa-broom"></i></div>
-                    <div><h6 class="m-0 fw-bold" style="font-size:0.95rem;">Naiane Mendes</h6><span class="text-muted small">Zeladora</span></div>
-                </div>
-                
-                <a href="https://wa.me/5538997504800" target="_blank" rel="noopener" class="btn w-100 fw-bold mt-4" style="background: var(--whatsapp); color: white; border-radius: 12px;">
-                    <i class="fab fa-whatsapp me-2"></i> (38) 99750-4800
-                </a>
+        <!-- EVANGELHO DO DIA -->
+        <div class="card-lux">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="font-serif fw-bold m-0 text-primary"><i class="fas fa-book-open me-2"></i>Evangelho do Dia</h6>
+                <span class="badge bg-light text-dark border">Hoje</span>
             </div>
-        </section>
+            <blockquote class="blockquote font-serif fs-6 italic text-muted mb-3">
+                "Vinde a mim todos vós que estais cansados e sob o peso de graves encargos, e eu vos darei descanso."
+            </blockquote>
+            <small class="text-primary fw-bold d-block text-end">— Mateus 11, 28</small>
+        </div>
 
-        <section>
-            <h2 class="section-title pt-0"><i class="fas fa-map-marker-alt"></i> Localização</h2>
-            <div class="card-glass p-0 overflow-hidden mb-4">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15383.003189912098!2d-44.25816915!3d-15.33405785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7552554694cf659%3A0xe549df9c7456d338!2sJaponvar%2C%20MG%2C%2039335-000!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" title="Mapa da localização da paróquia"></iframe>
-                <div class="p-3">
-                    <p class="small text-muted m-0">Praça Pres. Castelo Branco, S/N (nº 103)<br>Centro - Japonvar/MG - 39335-000</p>
-                    <p class="small text-muted m-0 mt-2"><i class="fas fa-envelope me-1"></i> paroquiasaogeraldojaponvar@gmail.com</p>
-                </div>
-            </div>
-        </section>
+        <!-- MURAL DE INTERCESSÃO COMUNITA -->
+        <div class="section-title">
+            <span><i class="fas fa-hands-praying me-2"></i> Mural de Orações</span>
+            <button class="btn btn-sm btn-primary rounded-pill px-3 fw-bold" onclick="new bootstrap.Modal(document.getElementById('modalNovaOracao')).show()">
+                <i class="fas fa-plus me-1"></i> Pedir Oração
+            </button>
+        </div>
+
+        <div class="px-3 mb-4" id="prayersContainer">
+            <!-- Inserido dinamicamente -->
+        </div>
     </main>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <div class="bottom-nav-wrapper">
-        <nav class="bottom-nav" id="bottomNav" aria-label="Navegação principal">
-            <button class="nav-item active" onclick="switchTab('view-home', this)" aria-label="Aba Início">
-                <i class="fas fa-home"></i><span>Início</span>
-            </button>
-            <button class="nav-item" onclick="switchTab('view-paroquia', this)" aria-label="Aba Paróquia">
-                <i class="fas fa-church"></i><span>Paróquia</span>
-            </button>
-            
-            <!-- FAB DÍZIMO NO MEIO -->
-            <div class="fab-pix" onclick="new bootstrap.Modal(document.getElementById('modalPix')).show()" aria-label="Fazer doação via PIX" role="button" tabindex="0">
-                <i class="fas fa-hand-holding-usd"></i>
+    <!-- ==========================================
+         TELA 4: SERVIÇOS & PASTORAIS
+    =========================================== -->
+    <main id="view-sacramentos" class="app-view">
+        
+        <!-- PÁROCO E SECRETARIA -->
+        <section>
+            <div class="section-title">
+                <span><i class="fas fa-user-tie me-2"></i> Presbitério & Secretaria</span>
+            </div>
+            <div class="card-lux d-flex align-items-center gap-3">
+                <img src="https://arquimoc.org/wp-content/uploads/2022/06/Pe.-Marcio-Antonio-site.png" alt="Pe. Márcio Antônio" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-gold); box-shadow: var(--shadow-glow);">
+                <div>
+                    <h3 class="font-serif h5 m-0 text-primary">Pe. Márcio Antônio R. da Silva</h3>
+                    <span class="text-muted d-block small mb-1">Administrador Paroquial</span>
+                    <span class="badge bg-light text-dark border">Ord: 20/08/2011</span>
+                </div>
             </div>
 
-            <button class="nav-item" onclick="switchTab('view-avisos', this)" aria-label="Aba Avisos">
-                <i class="fas fa-bullhorn"></i><span>Avisos</span>
+            <div class="card-lux">
+                <h6 class="font-serif fw-bold mb-3">Atendimento Paroquial</h6>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div style="width:42px; height:42px; border-radius:14px; background:rgba(16,185,129,0.12); color:var(--whatsapp); display:flex; align-items:center; justify-content:center;"><i class="fas fa-user-check fs-5"></i></div>
+                    <div><h6 class="m-0 fw-bold">Milena Pereira</h6><span class="text-muted small">Secretária Paroquial</span></div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div style="width:42px; height:42px; border-radius:14px; background:rgba(217,119,6,0.12); color:var(--accent-gold); display:flex; align-items:center; justify-content:center;"><i class="fas fa-broom fs-5"></i></div>
+                    <div><h6 class="m-0 fw-bold">Naiane Mendes</h6><span class="text-muted small">Zeladora Paroquial</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASTORAIS E MOVIMENTOS -->
+        <section>
+            <div class="section-title">
+                <span><i class="fas fa-users me-2"></i> Pastorais e Movimentos</span>
+            </div>
+            <div class="px-3 grid-pastorais">
+                <div class="card-lux p-3 mb-2 d-flex align-items-center gap-3">
+                    <i class="fas fa-heart text-danger fs-4"></i>
+                    <div><h6 class="m-0 fw-bold">Apostolado da Oração</h6><small class="text-muted">1ª Sexta-feira às 18h</small></div>
+                </div>
+                <div class="card-lux p-3 mb-2 d-flex align-items-center gap-3">
+                    <i class="fas fa-shield-halved text-primary fs-4"></i>
+                    <div><h6 class="m-0 fw-bold">Terço dos Homens</h6><small class="text-muted">Toda Sexta-feira às 19h</small></div>
+                </div>
+                <div class="card-lux p-3 mb-4 d-flex align-items-center gap-3">
+                    <i class="fas fa-baby text-warning fs-4"></i>
+                    <div><h6 class="m-0 fw-bold">Terço das Mães pelos Filhos</h6><small class="text-muted">Toda Segunda-feira às 19h</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA DE LOCALIZAÇÃO -->
+        <section>
+            <div class="section-title">
+                <span><i class="fas fa-map-marked-alt me-2"></i> Onde Estamos</span>
+            </div>
+            <div class="card-lux p-0 overflow-hidden mb-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15383.003189912098!2d-44.25816915!3d-15.33405785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7552554694cf659%3A0xe549df9c7456d338!2sJaponvar%2C%20MG%2C%2039335-000!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="p-3">
+                    <p class="small text-muted m-0">Praça Pres. Castelo Branco, Nº 103, Centro - Japonvar/MG</p>
+                    <p class="small text-muted m-0 mt-1"><i class="fas fa-envelope me-1"></i> paroquiasaogeraldojaponvar@gmail.com</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NAVEGAÇÃO INFERIOR ESTILO APP (DOCK) -->
+    <div class="bottom-nav-wrapper">
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('view-home', this)">
+                <i class="fas fa-home"></i><span>Início</span>
             </button>
-            <button class="nav-item" onclick="switchTab('view-servicos', this)" aria-label="Aba Serviços">
-                <i class="fas fa-address-book"></i><span>Serviços</span>
+            <button class="nav-item" onclick="switchTab('view-paroquia', this)">
+                <i class="fas fa-church"></i><span>Capelas</span>
+            </button>
+            
+            <!-- FAB DÍZIMO / PIX -->
+            <div class="fab-pix" onclick="new bootstrap.Modal(document.getElementById('modalPix')).show()" role="button">
+                <i class="fas fa-hand-holding-heart"></i>
+            </div>
+
+            <button class="nav-item" onclick="switchTab('view-liturgia', this)">
+                <i class="fas fa-book-bible"></i><span>Espírito</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('view-sacramentos', this)">
+                <i class="fas fa-concierge-bell"></i><span>Serviços</span>
             </button>
         </nav>
     </div>
 
-    <!-- ================= MODAIS ================= -->
-    
-    <!-- Modal Intenção -->
-    <div class="modal fade" id="modalIntencao" tabindex="-1" aria-labelledby="modalIntencaoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h2 id="modalIntencaoLabel" class="font-serif h4 m-0 text-primary">Marcar Missa</h2>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-                    </div>
-                    <p class="small text-muted mb-4">O pedido será formatado e enviado para o WhatsApp da Secretaria.</p>
-                    
-                    <input type="text" id="intName" class="form-control mb-3 p-3 bg-light border-0 rounded-3" placeholder="Nome da Pessoa ou Alma">
-                    <select id="intType" class="form-select mb-4 p-3 bg-light border-0 rounded-3" aria-label="Tipo de intenção">
-                        <option value="Sétimo Dia">Missa de 7º Dia</option>
-                        <option value="Ação de Graças">Ação de Graças / Aniversário</option>
-                        <option value="Saúde">Pela Saúde / Cura</option>
-                        <option value="Falecimento">Falecimento</option>
-                    </select>
-                    
-                    <button class="btn w-100 fw-bold py-3 text-white rounded-3 shadow-sm" style="background: var(--whatsapp);" onclick="sendWhatsapp()">
-                        <i class="fab fa-whatsapp fs-5 me-2"></i> ENVIAR PEDIDO
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- MODAIS DE INTERAÇÃO -->
 
-    <!-- Modal PIX -->
-    <div class="modal fade" id="modalPix" tabindex="-1" aria-labelledby="modalPixLabel" aria-hidden="true">
+    <!-- Modal PIX / Dízimo -->
+    <div class="modal fade" id="modalPix" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-body p-4 text-center">
-                    <div class="d-flex justify-content-end mb-2">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            <div class="modal-content text-center">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <h2 id="modalPixLabel" class="font-serif h4 mb-2 text-primary">Dízimo e Oferta</h2>
-                    <p class="small text-muted mb-4">Sua fidelidade mantém nossa Matriz e as 15 comunidades vivas.</p>
+                    <h4 class="font-serif fw-bold mb-1 text-primary">Dízimo e Ofertas</h4>
+                    <p class="small text-muted mb-3">Sua fidelidade mantém viva a nossa Matriz e as 15 comunidades.</p>
                     
-                    <div class="p-3 rounded-3 mb-4 bg-light border border-2 border-light">
-                        <span class="text-muted d-block mb-1 small">Chave PIX (Telefone):</span>
-                        <h3 class="m-0 font-serif text-dark fw-bold" style="letter-spacing: 2px;">38997504800</h3>
+                    <div class="p-3 bg-white d-inline-block rounded-4 shadow-sm mb-3 border">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=38997504800" alt="QR Code PIX" style="width: 160px; height: 160px;">
                     </div>
-                    <button id="btnCopyPix" class="btn w-100 py-3 fw-bold text-white rounded-3 shadow-sm transition" style="background: var(--accent-gold);" onclick="copyPix()">
+
+                    <div class="p-3 rounded-3 mb-3 bg-light border">
+                        <span class="text-muted d-block small mb-1">Chave PIX (Telefone):</span>
+                        <h4 class="m-0 font-serif text-dark fw-bold" style="letter-spacing: 2px;">38997504800</h4>
+                    </div>
+
+                    <button id="btnCopyPix" class="btn w-100 py-3 fw-bold text-white rounded-3 shadow-sm" style="background: var(--accent-gold);" onclick="copyPixKey()">
                         <i class="far fa-copy me-2"></i> COPIAR CHAVE PIX
                     </button>
                 </div>
@@ -481,98 +561,165 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Modal Intenção de Missa -->
+    <div class="modal fade" id="modalIntencao" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="font-serif fw-bold m-0 text-primary">Marcar Intenção de Missa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <p class="small text-muted mb-3">Enviaremos o pedido formatado diretamente para o WhatsApp da Secretaria.</p>
+                    
+                    <input type="text" id="intName" class="form-control mb-3 p-3 bg-light border-0 rounded-3" placeholder="Nome da Pessoa ou Alma">
+                    <select id="intType" class="form-select mb-4 p-3 bg-light border-0 rounded-3">
+                        <option value="Sétimo Dia">Missa de 7º Dia</option>
+                        <option value="Ação de Graças">Ação de Graças / Aniversário</option>
+                        <option value="Saúde e Cura">Pela Saúde / Cura</option>
+                        <option value="Falecimento">Falecimento / Alma</option>
+                    </select>
+                    
+                    <button class="btn w-100 fw-bold py-3 text-white rounded-3 shadow-sm" style="background: var(--whatsapp);" onclick="sendWhatsappIntention()">
+                        <i class="fab fa-whatsapp fs-5 me-2"></i> ENVIAR PEDIDO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Pedido de Oração -->
+    <div class="modal fade" id="modalNovaOracao" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="font-serif fw-bold m-0 text-primary">Pedir Intercessão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <input type="text" id="prayAuthor" class="form-control mb-2 p-3 bg-light border-0 rounded-3" placeholder="Seu Nome (ou Anônimo)">
+                    <textarea id="prayText" class="form-control mb-3 p-3 bg-light border-0 rounded-3" rows="3" placeholder="Escreva aqui sua intenção de oração..."></textarea>
+                    
+                    <button class="btn btn-primary w-100 fw-bold py-3 rounded-3" onclick="addPrayer()">
+                        <i class="fas fa-paper-plane me-2"></i> Publicar no Mural
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Bootstrap & Lógica -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // STATUS DA SECRETARIA (Ter a Sex, 08h às 12h)
-        function checkOffice() {
-            const now = new Date();
-            const day = now.getDay(); // 0=Dom, 1=Seg...
-            const hour = now.getHours();
-            const badge = document.getElementById('officeBadge');
-            
-            // Terça (2) a Sexta (5), das 08h às 11h59
-            if (day >= 2 && day <= 5 && hour >= 8 && hour < 12) {
-                badge.className = "status-badge bg-success text-white";
-                badge.innerHTML = '<i class="fas fa-door-open me-1"></i> Aberto';
-            } else {
-                badge.className = "status-badge bg-danger text-white";
-                badge.innerHTML = '<i class="fas fa-door-closed me-1"></i> Fechado';
+        // CAPELAS DA PARÓQUIA
+        const capelasData = [
+            { nome: "Matriz São Geraldo", local: "Centro - Japonvar", mat: true },
+            { nome: "Bom Jesus", local: "Comunidade Nova Minda" },
+            { nome: "São Sebastião", local: "Ponte do Mangaí" },
+            { nome: "São Cristóvão", local: "Vila São Cristóvão" },
+            { nome: "Nossa Senhora Aparecida", local: "Quatis" },
+            { nome: "Santo Expedito", local: "Dois Barreiros" },
+            { nome: "Santo Antônio", local: "Barra da Lagoinha" },
+            { nome: "São Geraldo", local: "Lagoinha II" },
+            { nome: "Santos Reis", local: "Passagem Funda" },
+            { nome: "Nossa Senhora Aparecida", local: "Pau Preto" },
+            { nome: "São José", local: "Porteiras" },
+            { nome: "Santa Rita de Cássia", local: "Comunidade Santa Rita" },
+            { nome: "Rosa Mística", local: "Santa Rosa" },
+            { nome: "Nossa Senhora Aparecida", local: "Melancias" },
+            { nome: "São José", local: "Vila de Andú" }
+        ];
+
+        function renderCapelas(list) {
+            const container = document.getElementById('capelasList');
+            container.innerHTML = list.map(c => `
+                <div class="card-lux p-3 mb-2 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width:42px; height:42px; border-radius:50%; background:${c.mat ? 'rgba(217,119,6,0.15)' : 'var(--bg-color)'}; color:${c.mat ? 'var(--accent-gold)' : 'var(--primary)'}; display:flex; align-items:center; justify-content:center;">
+                            <i class="fas ${c.mat ? 'fa-church' : 'fa-place-of-worship'} fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="m-0 fw-bold">${c.nome}</h6>
+                            <small class="text-muted">${c.local}</small>
+                        </div>
+                    </div>
+                    ${c.mat ? '<span class="badge bg-primary font-cinzel">Matriz</span>' : ''}
+                </div>
+            `).join('');
+        }
+        renderCapelas(capelasData);
+
+        function filterCapelas() {
+            const term = document.getElementById('searchCapela').value.toLowerCase();
+            const filtered = capelasData.filter(c => c.nome.toLowerCase().includes(term) || c.local.toLowerCase().includes(term));
+            renderCapelas(filtered);
+        }
+
+        // VELA VIRTUAL
+        let candleLit = false;
+        function lightVirtualCandle() {
+            const flame = document.getElementById('virtualFlame');
+            const count = document.getElementById('candleCount');
+            const btn = document.getElementById('btnLightCandle');
+
+            if (!candleLit) {
+                flame.classList.add('active');
+                count.innerText = parseInt(count.innerText) + 1;
+                btn.innerHTML = '<i class="fas fa-check me-2"></i> Sua Vela Está Acesa!';
+                btn.classList.replace('btn-warning', 'btn-success');
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+                candleLit = true;
             }
         }
-        checkOffice();
-        setInterval(checkOffice, 60000);
 
-        // SAUDAÇÃO DINÂMICA
-        function setGreeting() {
-            const hour = new Date().getHours();
-            let greeting = "Paz e Bem!";
-            if (hour >= 5 && hour < 12) greeting = "Bom dia!";
-            else if (hour >= 12 && hour < 18) greeting = "Boa tarde!";
-            else greeting = "Boa noite!";
-            document.getElementById('greetingText').innerText = greeting;
+        // REPRODUTOR DE ÁUDIO SIMULADO DA MENSAGEM DO PÁROCO
+        let isPlaying = false;
+        function toggleAudioReflexao() {
+            const icon = document.getElementById('audioIcon');
+            isPlaying = !isPlaying;
+            icon.className = isPlaying ? 'fas fa-pause' : 'fas fa-play';
         }
-        setGreeting();
 
-        // NAVEGAÇÃO SPA OTIMIZADA
+        // NAVEGAÇÃO SPA
         function switchTab(viewId, clickedBtn) {
-            // Esconde todas as telas e mostra a alvo
             document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             
-            // Troca classe active nos botões da nav
             document.querySelectorAll('.bottom-nav .nav-item').forEach(nav => nav.classList.remove('active'));
-            clickedBtn.classList.add('active');
+            if(clickedBtn) clickedBtn.classList.add('active');
             
-            // Scroll suave para o topo
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // TEMA DARK/LIGHT
+        // DARK MODE
         function toggleTheme() {
             const body = document.body;
-            const icon = document.getElementById('themeIcon');
-            const isLight = body.getAttribute('data-theme') === 'light';
-            
-            body.setAttribute('data-theme', isLight ? 'dark' : 'light');
-            icon.classList.replace(isLight ? 'fa-moon' : 'fa-sun', isLight ? 'fa-sun' : 'fa-moon');
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('themeIcon').className = isDark ? 'fas fa-moon fs-5' : 'fas fa-sun fs-5';
         }
 
-        // WHATSAPP INTENÇÕES (Correção de encoding)
-        function sendWhatsapp() {
-            const name = document.getElementById('intName').value.trim();
-            const type = document.getElementById('intType').value;
-            
-            if(!name) { 
-                alert("Por favor, digite o nome para a intenção."); 
-                document.getElementById('intName').focus();
-                return; 
-            }
-            
-            const msg = `Olá Milena, Paz e Bem! Gostaria de marcar uma intenção de missa.\n\n*Tipo:* ${type}\n*Nome:* ${name}\n\nComo faço para confirmar?`;
-            window.open(`https://wa.me/5538997504800?text=${encodeURIComponent(msg)}`, '_blank');
-            
-            // Limpa o input e fecha o modal
-            document.getElementById('intName').value = '';
-            bootstrap.Modal.getInstance(document.getElementById('modalIntencao')).hide();
-        }
-
-        // COPIAR PIX COM FEEDBACK VISUAL
-        function copyPix() {
-            const btn = document.getElementById('btnCopyPix');
+        // PIX COPY
+        function copyPixKey() {
             navigator.clipboard.writeText("38997504800").then(() => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check me-2"></i> PIX COPIADO!';
-                btn.classList.replace('bg-accent-gold', 'bg-success');
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+                const btn = document.getElementById('btnCopyPix');
+                btn.innerHTML = '<i class="fas fa-check me-2"></i> CHAVE COPIADA!';
                 btn.style.background = "var(--whatsapp)";
-                
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
+                    btn.innerHTML = '<i class="far fa-copy me-2"></i> COPIAR CHAVE PIX';
                     btn.style.background = "var(--accent-gold)";
                 }, 2500);
-            }).catch(err => {
-                alert("Erro ao copiar. Tente manualmente: 38997504800");
             });
+        }
+
+        // INTENÇÕES WHATSAPP
+        function sendWhatsappIntention() {
+            const name = document.getElementById('intName').value.trim();
+            const type = document.getElementById('intType').value;
+            if(!name) return alert("Por favor, digite o nome para a intenção.");
+            const msg = `Olá Milena (Secretaria), Paz e Bem!\nGostaria de marcar a seguinte Intenção de Missa:\n\n*Tipo:* ${type}\n*Nome:* ${name}`;
+            window.open(`https://wa.me/5538997504800?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
 </body>
